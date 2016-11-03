@@ -9,11 +9,11 @@
         android:icon="@mipmap/ic_favoritos"    />
     <item android:id="@+id/mAbout"
         android:title="@string/menu_about"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
         >
     </item>
-    <item android:id="@+id/mSettings"
-        android:title="@string/menu_settings"
+    <item android:id="@+id/mContacto"
+        android:title="@string/menu_contacto"
         android:orderInCategory="101"
         >
     </item>

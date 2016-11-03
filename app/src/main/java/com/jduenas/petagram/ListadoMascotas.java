@@ -19,9 +19,11 @@ public class ListadoMascotas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listado_mascotas);
-        Toolbar miActionBar = (Toolbar) findViewById(R.id.miActionBar);
-        setSupportActionBar(miActionBar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar miActionBar = (Toolbar) findViewById(R.id.toolbar);
+        if (miActionBar!=null){
+            setSupportActionBar(miActionBar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         listaMascotas = (RecyclerView) findViewById(R.id.rvMascotasFav);
 
@@ -34,7 +36,7 @@ public class ListadoMascotas extends AppCompatActivity {
 
     }
     public void inicializarAdaptador(){
-        MascotaAdaptador adaptador = new MascotaAdaptador(mascotas);
+        MascotaAdaptador adaptador = new MascotaAdaptador(mascotas,this);
         listaMascotas.setAdapter(adaptador);
     }
 
