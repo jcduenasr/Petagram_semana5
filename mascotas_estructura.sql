@@ -1,0 +1,3 @@
+CREATE TABLE android_metadata (locale TEXT);
+CREATE TABLE likes(id INTEGER PRIMARY KEY AUTOINCREMENT, id_mascota INTEGER, numero_likes INTEGER, FOREIGN KEY (id_mascota) REFERENCES mascota(id));
+CREATE TABLE mascota(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, foto INTEGER );
