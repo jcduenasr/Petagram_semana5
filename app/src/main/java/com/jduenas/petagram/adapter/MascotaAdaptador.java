@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jduenas.petagram.R;
+import com.jduenas.petagram.db.ConstructorMascotas;
 import com.jduenas.petagram.pojo.Mascota;
 
 import java.util.ArrayList;
@@ -36,15 +37,20 @@ public class MascotaAdaptador extends RecyclerView.Adapter<MascotaAdaptador.Masc
     @Override
     public void onBindViewHolder(final MascotaViewHolder mascotaViewHolder, int position) {
         final Mascota mascota = mascotas.get(position);
+        final ConstructorMascotas constructorMascotas = new ConstructorMascotas(activity);
         mascotaViewHolder.imgFoto.setImageResource(mascota.getFoto());
         mascotaViewHolder.tvNombreCV.setText(mascota.getNombre());
-        mascotaViewHolder.tvLikesCV.setText(Integer.toString(mascota.getLikes()));
+        mascotaViewHolder.tvLikesCV.setText(Integer.toString(constructorMascotas.obtenerLikesMascota(mascota)));
 
         mascotaViewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mascota.setLikes(mascota.getLikes()+1);
-                mascotaViewHolder.tvLikesCV.setText(Integer.toString(mascota.getLikes()));
+                //mascota.setLikes(mascota.getLikes()+1);
+                //mascotaViewHolder.tvLikesCV.setText(Integer.toString(mascota.getLikes()));
+
+                constructorMascotas.darLikeMascota(mascota);
+                mascotaViewHolder.tvLikesCV.setText(Integer.toString(constructorMascotas.obtenerLikesMascota(mascota)));
+
             }
         });
     }

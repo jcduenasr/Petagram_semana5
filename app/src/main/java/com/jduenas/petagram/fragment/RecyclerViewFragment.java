@@ -15,6 +15,8 @@ import com.jduenas.petagram.MainActivity;
 import com.jduenas.petagram.R;
 import com.jduenas.petagram.adapter.MascotaAdaptador;
 import com.jduenas.petagram.pojo.Mascota;
+import com.jduenas.petagram.presenter.IRecyclerViewFragmentPresenter;
+import com.jduenas.petagram.presenter.RecyclerViewFragmentPresenter;
 
 import java.util.ArrayList;
 
@@ -22,10 +24,11 @@ import java.util.ArrayList;
  * Created by jduenas on 01/11/2016.
  */
 
-public class RecyclerViewFragment extends Fragment {
+public class RecyclerViewFragment extends Fragment implements IRecyclerViewFragment{
 
     ArrayList<Mascota> mascotas;
     private RecyclerView rvMascotas;
+    private IRecyclerViewFragmentPresenter presenter;
 
     @Nullable
     @Override
@@ -33,10 +36,6 @@ public class RecyclerViewFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
-        rvMascotas = (RecyclerView) v.findViewById(R.id.rvMascotas);
-
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
         FloatingActionButton tomarFoto = (FloatingActionButton) v.findViewById(R.id.camera);
         tomarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,22 +43,27 @@ public class RecyclerViewFragment extends Fragment {
                 Toast.makeText(getActivity(),"Tomando Foto",Toast.LENGTH_SHORT).show();
             }
         });
-        rvMascotas.setLayoutManager(llm);
-        inicializarListaMascotas();
-        inicializarAdaptador();
 
+        rvMascotas = (RecyclerView) v.findViewById(R.id.rvMascotas);
+        presenter = new RecyclerViewFragmentPresenter(this,getContext());
         return  v;
     }
-    public MascotaAdaptador adaptador;
-    public void inicializarAdaptador(){
-        adaptador = new MascotaAdaptador(mascotas,getActivity());
-        rvMascotas.setAdapter(adaptador);
+
+    @Override
+    public void generarLinearLayoutVertical() {
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rvMascotas.setLayoutManager(llm);
     }
 
-    public void inicializarListaMascotas(){
-        mascotas = new ArrayList<Mascota>();
-        mascotas.add(new Mascota("Coraje",0,R.drawable.mascota1));
-        mascotas.add(new Mascota("Pluto",1,R.drawable.mascota2));
-        mascotas.add(new Mascota("Droopy",2,R.drawable.mascota3));
+    @Override
+    public MascotaAdaptador crearAdaptador(ArrayList<Mascota> mascotas) {
+        MascotaAdaptador adaptador = new MascotaAdaptador(mascotas,getActivity());
+        return adaptador;
+    }
+
+    @Override
+    public void inicializarAdaptadorRV(MascotaAdaptador adaptador) {
+        rvMascotas.setAdapter(adaptador);
     }
 }

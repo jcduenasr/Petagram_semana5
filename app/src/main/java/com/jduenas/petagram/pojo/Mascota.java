@@ -5,14 +5,25 @@ package com.jduenas.petagram.pojo;
  */
 public class Mascota {
 
+    private int id;
     private String nombre;
     private int likes;
     private int foto;
+
+    public Mascota() {
+    }
 
     public Mascota(String nombre, int likes, int foto) {
         this.nombre = nombre;
         this.likes = likes;
         this.foto = foto;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {

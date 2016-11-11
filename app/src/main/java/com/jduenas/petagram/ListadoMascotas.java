@@ -8,13 +8,16 @@ import android.support.v7.widget.Toolbar;
 
 import com.jduenas.petagram.adapter.MascotaAdaptador;
 import com.jduenas.petagram.pojo.Mascota;
+import com.jduenas.petagram.presenter.IListadoMascotasFavoritasPresenter;
+import com.jduenas.petagram.presenter.ListadoMascotasPresenter;
 
 import java.util.ArrayList;
 
-public class ListadoMascotas extends AppCompatActivity {
+public class ListadoMascotas extends AppCompatActivity implements IListadoMascotasView {
 
     ArrayList<Mascota> mascotas;
     private RecyclerView listaMascotas;
+    private IListadoMascotasFavoritasPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +30,8 @@ public class ListadoMascotas extends AppCompatActivity {
 
         listaMascotas = (RecyclerView) findViewById(R.id.rvMascotasFav);
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        presenter = new ListadoMascotasPresenter(this,this);
 
-        listaMascotas.setLayoutManager(llm);
-        inicializarListaMascotas();
-        inicializarAdaptador();
-
-    }
-    public void inicializarAdaptador(){
-        MascotaAdaptador adaptador = new MascotaAdaptador(mascotas,this);
-        listaMascotas.setAdapter(adaptador);
     }
 
     public void inicializarListaMascotas(){
@@ -47,5 +41,23 @@ public class ListadoMascotas extends AppCompatActivity {
         mascotas.add(new Mascota("Droopy",2,R.drawable.mascota3));
         mascotas.add(new Mascota("Huesos",3,R.drawable.images));
         mascotas.add(new Mascota("Scooby",4,R.drawable.mascota5));
+    }
+
+    @Override
+    public void generarLinearLayoutVertical() {
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listaMascotas.setLayoutManager(llm);
+    }
+
+    @Override
+    public MascotaAdaptador crearAdaptador(ArrayList<Mascota> mascotas) {
+        MascotaAdaptador adaptador = new MascotaAdaptador(mascotas,this);
+        return adaptador;
+    }
+
+    @Override
+    public void inicializarAdaptadorRV(MascotaAdaptador adaptador) {
+        listaMascotas.setAdapter(adaptador);
     }
 }
